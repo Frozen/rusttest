@@ -14,13 +14,6 @@ use postgres::{Connection, TlsMode};
 
 use structopt::StructOpt;
 
-#[derive(Debug)]
-struct MomentPrice {
-    moment: NaiveDateTime,
-    price: f64,
-}
-
-
 /// A basic example
 #[derive(StructOpt, Debug)]
 #[structopt(name = "basic")]
@@ -93,7 +86,7 @@ fn max(my_vec: &[f64]) -> f64 {
 
 fn min(my_vec: &[f64]) -> f64 {
 
-    let mut m: f64 = 1000_000_000.0;
+    let mut m: f64 = 1_000_000_000.0;
 
     for x in my_vec {
         if *x < m {
