@@ -39,7 +39,7 @@ fn main() {
     println!("{:?}", opt);
 
 
-    let query = format!("select price, date_trunc('second', moment) as moment from rts where moment >= '{}-01-01' and moment < '{}-01-01' order by moment", opt.year, opt.year + 1);
+    let query = format!("select price, date_trunc('minute', moment) as moment from rts where moment >= '{}-01-01' and moment < '{}-01-01' order by moment", opt.year, opt.year + 1);
 //    let query = format!("select price, moment from rts where moment >= '{}-01-01' and moment < '{}-01-01'", opt.year, opt.year + 1);
 
 
@@ -52,8 +52,6 @@ fn main() {
     }
 
 
-
-
     for (key, value) in &moment_price {
         let r = conn.execute("insert into rts_grouped_minute values($1, $2, $3, $4, $5, $6)",
                      &[
@@ -62,7 +60,7 @@ fn main() {
                          &max(value),
                          value.first().unwrap(),
                          value.last().unwrap(),
-                         moment_price.get(&(key.clone() - Duration::seconds(1))).map(|e| e.last().unwrap()).unwrap_or(&0.0)]);
+                         moment_price.get(&(key.clone() - Duration::minutes(1))).map(|e| e.last().unwrap()).unwrap_or(&0.0)]);
 
         r.unwrap();
     }
