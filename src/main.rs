@@ -55,7 +55,7 @@ fn main() {
 
 
     for (key, value) in &moment_price {
-        let r = conn.execute("insert into rts_grouped_minute values($1, $2, $3, $4, $5)",
+        let r = conn.execute("insert into rts_grouped_minute values($1, $2, $3, $4, $5, $6)",
                      &[
                          key,
                          &min(value),
