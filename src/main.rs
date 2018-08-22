@@ -46,7 +46,7 @@ fn main() {
     println!("{:?}", opt);
 
 
-    let query = format!("select price, moment from rts where moment >= '{}-01-01' and moment < '{}-01-01'", opt.year, opt.year + 1);
+    let query = format!("select price, date_trunc('second', moment) as moment from rts where moment >= '{}-01-01' and moment < '{}-01-01' order by moment", opt.year, opt.year + 1);
 //    let query = format!("select price, moment from rts where moment >= '{}-01-01' and moment < '{}-01-01'", opt.year, opt.year + 1);
 
 
@@ -58,15 +58,7 @@ fn main() {
         moment_price.entry(row.get(1)).or_insert_with(Vec::new ).push(row.get(0));
     }
 
-    println!("Found person {:?}", moment_price);
 
-
-    let x = NaiveDateTime::from_timestamp(1000, 0);
-    println!("x = {:?}", x);
-
-    let y = x + Duration::seconds(-1);
-//    let y = x.add(Duration::seconds(-1));
-    println!("y = {:?}", y);
 
 
     for (key, value) in &moment_price {
